@@ -2,9 +2,6 @@ const carType = require('./model.js')
 
 module.exports = {
     addCar: (req,res)=>{
-
-        console.log("req.body in controller", req.body)
-        console.log("Car Mongoose Model", carType)
         carType.create(
             {make: req.body.make,
              model: req.body.model},
@@ -27,7 +24,20 @@ module.exports = {
             }
         })
 
-    }
+    },
 
+    deleteCar: (req,res)=>{
+        console.log("HIT DELETE CAR")
+        carType.findOneAndRemove({ '_id':req.params._id}, (err, deletedItem)=>{
+            console.log("SHOW ME ID ",req.params.value)
+            if(err){
+                res.status(500).json()
+                console.log(err, 'deleteerr')
+            } else {
+                res.send({Success:deletedItem})
+            }
+        })
+
+    }
 
 }
